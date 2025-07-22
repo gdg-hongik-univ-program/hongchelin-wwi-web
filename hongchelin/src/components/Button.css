@@ -1,0 +1,49 @@
+.Button {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.Button_footer{
+    flex-direction: column;
+    font-size: 18px;
+    font-weight: 600;
+    background-color: rgb(236,236,236);
+    padding: 10px 20px;
+    margin: 20px;
+}
+
+.Button_footer img{
+    flex-direction: column;
+    margin-bottom: 4px;
+}
+
+.Button_submit{
+    display: flex;
+    font-size: 18px;
+    background-color: rgb(100,201,100);
+    margin: 20px 0px;
+    padding: 8px 10px;
+}
+
+.Button_cancel{
+    display: flex;
+    margin: 20px 0px;
+    font-size: 18px;
+    background-color: #faabb3;
+    align-items: center;
+    padding: 8px 10px;
+}
+
+.Button_writing {
+    display: flex;
+    align-items: center;
+    margin: 20px 0px;
+    padding: 8px 10px;
+    font-size: 14px;
+    background-color: rgb(236,236,236);
+    cursor: pointer;
+}

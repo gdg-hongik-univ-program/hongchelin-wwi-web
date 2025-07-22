@@ -1,0 +1,31 @@
+.Writing >section > input {
+    background-color: rgb(236,236,236);
+    border: none;
+    border-radius: 5px;
+    font-size: 20px;
+    padding: 10px 10px;
+}
+
+.Writing > section > h4 {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.Writing {
+    padding: 10px 20px;
+    margin: 20px;
+    justify-content: center;
+}
+
+.Writing > section > textarea {
+    padding: 20px;
+    width: 100%;
+    min-height: 200px;
+    resize: vertical;
+    box-sizing: border-box;
+}
+
+.Writing .Buttons {
+    display: flex;
+    justify-content: space-between;
+}
