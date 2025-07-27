@@ -9,6 +9,9 @@ function MyPage(){
     return(
         <div className="MyPage">
             <Header_writing text="마이페이지"/>
+            <div>
+                <Name />
+            </div>
             <Name />
             <FeedImg />
             <Information />
