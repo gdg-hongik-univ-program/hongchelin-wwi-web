@@ -61,7 +61,7 @@ const Writing = ({initData, onSubmit}) =>{
     return (
         <div className="Writing">
             <div>
-                <Header_writing/>
+                <Header_writing text="새로운 게시글 작성하기"/>
             </div>
             <section>
                 <h4>제목</h4>
@@ -69,12 +69,11 @@ const Writing = ({initData, onSubmit}) =>{
                 name="title"
                 value={input.content}
                 onChange={onChangeInput}
-                placeholder="제목을 입력해주세요"
-                />
+                placeholder="제목을 입력해주세요"/>
             </section>
 
             <section className="date_section">
-                <h4>오늘의 날짜</h4>
+                <h4>날짜</h4>
                 <input
                 name="createdDate"
                 onChange={onChangeInput}
@@ -88,14 +87,18 @@ const Writing = ({initData, onSubmit}) =>{
                 {/* 지도 API 연결하기 */}
             </section>
 
+            <section className="">
+                <h4>추천메뉴</h4>
+                <input/>
+            </section>
+
             <section>
                 <h4>내용</h4>
                 <textarea 
                 name="content"
                 value={input.content}
                 onChange={onChangeInput}
-                placeholder="내용을 입력해주세요"
-                />
+                placeholder="내용을 입력해주세요"/>
             </section>
 
             <section>
@@ -108,18 +111,16 @@ const Writing = ({initData, onSubmit}) =>{
                     value={rating}
                     onChange={(e) => {
                         const value = Number(e.target.value);
-                        if (value >= 0 && value <= 5) {
+                        if (value >= 0 && value <= 5){
                             setRating(value);
                         }
                     }}
-                    placeholder="1~5 사이의 숫자를 입력하세요"
-                />
+                    placeholder="1~5 사이의 숫자를 입력하세요"/>
             </section>
             <div className="Buttons">
                 <Button type="cancel" onClick={() => nav(-1)}>
                     취소하기
                 </Button>
-
                 <Button type="submit" onClick={onClickSubmitButton}>
                     작성완료
                 </Button>

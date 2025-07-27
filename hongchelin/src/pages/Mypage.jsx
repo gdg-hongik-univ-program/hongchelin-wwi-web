@@ -1,14 +1,18 @@
-//import { useState } from "react";
+// import { useState } from "react";
+import Footer from "../components/Footer";
 import FeedImg from "../components/FeedImg";
-// import Footer from "../pages/Footer";
 import Name from "../components/Name";
+import Header_writing from "../components/Header_writing"
+import Information from "../components/Information";
 
 function MyPage(){
     return(
         <div className="MyPage">
-            <h1>My Page</h1>
+            <Header_writing text="마이페이지"/>
             <Name />
             <FeedImg />
+            <Information />
+            <Footer />
         </div>
 
     )

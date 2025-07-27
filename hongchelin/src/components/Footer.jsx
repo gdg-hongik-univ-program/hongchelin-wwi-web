@@ -28,6 +28,10 @@ function Footer() {
             <img src={MyPage} alt="MyPage img" width="36px" height="36px" />
             MYPAGE
          </Button>
+         <Button type="footer" onClick={() => nav("/map")}>
+            <img src={MyPage} alt="MyPage img" width="36px" height="36px" />
+            MAP
+         </Button>
         </div>
     )
 }

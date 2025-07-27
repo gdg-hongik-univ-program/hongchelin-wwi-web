@@ -2,7 +2,7 @@ import Button from "./Button";
 import "./Header_writing.css"
 import { useNavigate } from "react-router-dom"
 
-const Header_writing = () => {
+const Header_writing = ({text}) => {
     const nav = useNavigate();
 
     return (
@@ -12,7 +12,7 @@ const Header_writing = () => {
                     뒤로가기
                 </Button>
                 <h1>
-                    새로운 게시글 작성하기
+                    {text}
                 </h1>
             </div>
         </header>
