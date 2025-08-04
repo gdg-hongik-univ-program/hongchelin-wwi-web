@@ -1,12 +1,19 @@
+.image-box-wrapper {
+  border: 1px solid #BD2333;
+  border-radius: 5px;
+  margin: 10px;
+}
+
 .image-box {
-  width: 200px;
-  height: 200px;
+  width: 250px;
+  height: 250px;
   border-radius: 10px;
   overflow: hidden;
   background-color: #f0f0f0;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 20px;
 }
 
 .image-box.no-image {
@@ -18,4 +25,11 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.image > h4 {
+  font-size: 15px;
+  border-bottom: 1px solid #aaa;
+  margin: 20px 10px;
+  padding: 10px;
 }

@@ -1,0 +1,39 @@
+import "./NicknameModal.css";
+import "./Button"
+import Button from "./Button";
+import { useState } from "react";
+
+const NicknameModal = ({ onClose, onSave }) => {
+  const [newNickname, setNewNickname] = useState("");
+
+  const handleChange = (e) => setNewNickname(e.target.value);
+  const handleSave = () =>{
+    if (newNickname.trim() === "")
+      return alert("닉네임을 입력하세요 !")
+    onSave(newNickname);
+  };
+
+  return (
+    <div className="modal-backdrop" onClick={onClose}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <h2>닉네임 변경</h2>
+        <input 
+        type="text"
+        placeholder="새 닉네임 입력"
+        value={newNickname}
+        onChange={handleChange}
+        />
+        <div className="modal-buttons">
+            <Button onClick={onClose} type="nickname">
+                취소
+            </Button>
+            <Button onClick={handleSave} type="nickname">
+                저장
+            </Button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default NicknameModal;

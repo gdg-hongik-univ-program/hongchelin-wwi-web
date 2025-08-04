@@ -1,61 +1,81 @@
+// src/components/KakaoMap.jsx
 import { useEffect } from "react";
-import Marker from "../assets/Marker.png"
+import Marker from "../assets/Marker2.png";
+import Header_writing from "./Header_writing";
+import Footer from "./Footer";
 
 const KakaoMap = () => {
   useEffect(() => {
-    const script = document.createElement("script");
-    script.src =
-      "https://dapi.kakao.com/v2/maps/sdk.js?appkey=&autoload=false";
-    script.async = true;
+    const loadKakaoMap = () => {
+      const container = document.getElementById("map");
+      const options = {
+        center: new window.kakao.maps.LatLng(37.553, 126.923),
+        level: 5,
+      };
 
-    script.onload = () => {
-      window.kakao.maps.load(() => {
-        const container = document.getElementById("map");
-        const options = {
-          center: new window.kakao.maps.LatLng(37.548250, 126.918523),
-          level: 3,
-        };
+      const map = new window.kakao.maps.Map(container, options);
 
-        const map = new window.kakao.maps.Map(container, options);
+      const imageSrc = Marker;
+      const imageSize = new window.kakao.maps.Size(40, 60);
+      const markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize);
 
-        const positions = [
-          {
-            title: "멘타카무쇼",
-            latlng: new window.kakao.maps.LatLng(37.5482553251, 126.918523175),
-          },
-        ];
+      const geocoder = new window.kakao.maps.services.Geocoder();
 
-        const imageSrc = Marker;
+      const positions = [
+        { title: "멘타카무쇼", address: "서울특별시 마포구 와우산로13길 49-10" },
+        { title: "금복식당", address: "서울특별시 마포구 상수동 325-2" },
+        { title: "칸다소바", address: "서울특별시 마포구 와우산로 51-6" },
+        { title: "하카타분코", address: "서울특별시 마포구 독막로19길 43" },
+        { title: "카미야", address: "서울특별시 마포구 와우산로21길 28-6" },
+        { title: "식스티즈 60's", address: "서울특별시 마포구 와우산로23길 9" },
+        { title: "타오마라탕 홍대점", address: "서울특별시 마포구 와우산로21길 28" },
+        { title: "오레노라멘 본점", address: "서울특별시 마포구 독막로6길 14" },
+      ];
 
-        
-        for (let i = 0; i < positions.length; i++) {
-          const imageSize = new window.kakao.maps.Size(24, 35);
-          const markerImage = new window.kakao.maps.MarkerImage(
-            imageSrc,
-            imageSize
-          );
-
-          new window.kakao.maps.Marker({
-            map: map,
-            position: positions[i].latlng,
-            title: positions[i].title,
-            image: markerImage,
-          });
-        }
+      positions.forEach((pos) => {
+        geocoder.addressSearch(pos.address, (result, status) => {
+          if (status === window.kakao.maps.services.Status.OK) {
+            const coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
+            new window.kakao.maps.Marker({
+              map,
+              position: coords,
+              title: pos.title,
+              image: markerImage,
+            });
+          } else {
+            console.error(`주소 변환 실패: ${pos.title}`);
+          }
+        });
       });
     };
 
-    if (!document.getElementById("kakao-map-script")) {
-      script.id = "kakao-map-script";
+    const loadScript = () => {
+      const script = document.createElement("script");
+      script.src =
+        "https://dapi.kakao.com/v2/maps/sdk.js?appkey=&autoload=false&libraries=services";
+      script.async = true;
+      script.onload = () => {
+        window.kakao.maps.load(() => {
+          loadKakaoMap();
+        });
+      };
       document.head.appendChild(script);
+    };
+
+    if (window.kakao && window.kakao.maps) {
+      // 이미 스크립트가 로드된 경우
+      window.kakao.maps.load(() => {
+        loadKakaoMap();
+      });
     } else {
-      window.kakao?.maps?.load?.();
+      // 처음 로드
+      loadScript();
     }
   }, []);
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>🗺 Kakao 지도</h2>
+    <div>
+      <Header_writing text="📍 홍슐랭 맛지도" />
       <div
         id="map"
         style={{
@@ -63,7 +83,8 @@ const KakaoMap = () => {
           height: "400px",
           border: "1px solid #ccc",
         }}
-      />
+      ></div>
+      <Footer />
     </div>
   );
 };

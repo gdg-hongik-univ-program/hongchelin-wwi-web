@@ -3,6 +3,7 @@
 }
 
 .Header_writing > div {
+    position: relative;
     display: flex;
     border-bottom: 1px solid rgb(240,240,240);
     gap: 10px;
@@ -10,17 +11,18 @@
     align-items: center;
     height: 60px;
     position: relative;
+    margin-bottom: 20px;
 }
 
-.Header_writing > div > h1 {
+.Header_writing > div > h2 {
     display: flex;
-    font-size: 30px;
+    font-size: 20px;
     font-weight: 600;
     justify-content: center;
     align-items: center;
 }
 
-.Header_writing > div > button {
+.Header_writing > div >button{
     position: absolute;
-    left: 20px;
+    left: 0;
 }

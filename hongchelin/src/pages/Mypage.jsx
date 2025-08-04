@@ -12,7 +12,6 @@ function MyPage(){
             <div>
                 <Name />
             </div>
-            <Name />
             <FeedImg />
             <Information />
             <Footer />

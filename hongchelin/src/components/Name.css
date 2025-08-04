@@ -1,3 +1,24 @@
 .Name{
     display: flex;
+    justify-content: space-between;
+    border: 1px solid #BD2333;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 10px;
+    align-items: center;
+}
+
+.Name > img {
+    display: flex;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: none;
+    margin-left: 20px;
+}
+
+.Name > h3 {
+    font-size: 18px;
+    margin-right: 40px;
 }

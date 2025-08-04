@@ -1,0 +1,13 @@
+.Community-search {
+    display: flex;
+    gap: 30px;
+}
+
+.Community-search > input {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+    background-color: #ffffff;
+    width: 300px;
+}

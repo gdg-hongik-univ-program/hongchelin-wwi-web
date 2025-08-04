@@ -2,7 +2,8 @@ import Button from "./Button";
 import "./Writing.css"
 import FilledStar from "../assets/FilledStar.png"
 import EmptyStar from "../assets/EmptyStar.png"
-import Header_writing from "./Header_writing"
+import Header_writing from "./Header_writing";
+import ImageUpload from "./ImgUpload";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getStringedDate} from "../util/getStringedDate"
@@ -10,9 +11,14 @@ import { getStringedDate} from "../util/getStringedDate"
 const Writing = ({initData, onSubmit}) =>{
     const nav = useNavigate();
     const [input, setInput] = useState({
+        title: "",
         createdDate: new Date(),
         content: "",
+        recommendedMenu: "",
+        location: "",
     })
+
+    const [searchKeyword, setSearchKeyword] = useState("");
 
     const [rating, setRating] = useState(0);
     const renderStars = () => {
@@ -30,7 +36,6 @@ const Writing = ({initData, onSubmit}) =>{
         }
         return stars;
     };
-
 
     useEffect(()=>{
         if(initData){
@@ -55,8 +60,9 @@ const Writing = ({initData, onSubmit}) =>{
     }
 
     const onClickSubmitButton = () =>{
-        onSubmit(input)
+        onSubmit({...input, rating})
     }
+
 
     return (
         <div className="Writing">
@@ -67,13 +73,15 @@ const Writing = ({initData, onSubmit}) =>{
                 <h4>제목</h4>
                 <input 
                 name="title"
-                value={input.content}
+                value={input.title}
                 onChange={onChangeInput}
-                placeholder="제목을 입력해주세요"/>
+                placeholder="제목을 입력해주세요"
+                required
+                />
             </section>
 
             <section className="date_section">
-                <h4>날짜</h4>
+                <h4>📅날짜</h4>
                 <input
                 name="createdDate"
                 onChange={onChangeInput}
@@ -82,14 +90,24 @@ const Writing = ({initData, onSubmit}) =>{
             </section>
 
             <section className="date_section">
-                <h4>위치</h4>
-                <input/>
-                {/* 지도 API 연결하기 */}
+                <h4>📍위치</h4>
+                <input 
+                type="text"
+                placeholder="가게 이름을 입력해주세요"
+                value={searchKeyword}
+                onChange={(e)=>setSearchKeyword(e.target.value)}
+                style={{marginBottom: "10px"}}
+                required/>
             </section>
 
             <section className="">
-                <h4>추천메뉴</h4>
-                <input/>
+                <h4>🍽️추천메뉴</h4>
+                <input
+                name="recommendedMenu"
+                value={input.recommendedMenu}
+                onChange={onChangeInput}
+                placeholder="추천메뉴를 입력해주세요"
+                required/>
             </section>
 
             <section>
@@ -102,21 +120,15 @@ const Writing = ({initData, onSubmit}) =>{
             </section>
 
             <section>
-                <h4>별점</h4>
-                <div>{renderStars()}</div>
-                <input
-                    type="number"
-                    min="1"
-                    max="5"
-                    value={rating}
-                    onChange={(e) => {
-                        const value = Number(e.target.value);
-                        if (value >= 0 && value <= 5){
-                            setRating(value);
-                        }
-                    }}
-                    placeholder="1~5 사이의 숫자를 입력하세요"/>
+                <h4>📷사진 추가</h4>
+                <ImageUpload />
             </section>
+
+            <section>
+                <h4>⭐️별점</h4>
+                <div>{renderStars()}</div>
+            </section>
+            
             <div className="Buttons">
                 <Button type="cancel" onClick={() => nav(-1)}>
                     취소하기

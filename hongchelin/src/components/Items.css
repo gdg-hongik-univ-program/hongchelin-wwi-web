@@ -1,0 +1,35 @@
+.item-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 12px 0;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.item-card:hover {
+  background-color: #fdf2f2; /* hover 시 연한 배경 */
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.item-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #bd2333;
+}
+
+.item-date {
+  font-size: 14px;
+  color: #888;
+}
+
+.item-content {
+  font-size: 15px;
+  color: #444;
+}

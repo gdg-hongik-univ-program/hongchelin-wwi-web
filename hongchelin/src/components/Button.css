@@ -11,9 +11,10 @@
     flex-direction: column;
     font-size: 18px;
     font-weight: 600;
-    background-color: rgb(236,236,236);
     padding: 10px 20px;
     margin: 20px;
+    border: none;
+    background-color: transparent;
 }
 
 .Button_footer img{
@@ -24,17 +25,28 @@
 .Button_submit{
     display: flex;
     font-size: 18px;
-    background-color: rgb(100,201,100);
+    background-color: #BD2333;
+    color: #ffffff;
+    border-radius: 5px;
+    width: 250px;
+    height: 45px;
     margin: 20px 0px;
     padding: 8px 10px;
+    justify-content: center;
 }
 
 .Button_cancel{
     display: flex;
+    width: 250px;
+    height: 45px;
     margin: 20px 0px;
     font-size: 18px;
-    background-color: #faabb3;
+    background-color: #ffffff;
+    border: 1px solid #BD2333;
+    border-radius: 5px;
+    color: #BD2333;
     align-items: center;
+    justify-content: center;
     padding: 8px 10px;
 }
 
@@ -51,4 +63,38 @@
 .Button_community {
     display: flex;
     align-items: center;
+    background-color: #BD2333;
+    color: #ffffff;
+    border-radius: 5px;
+    font-size: 15px;
+    width: 250px;
+    height: 30px;
+    justify-content: center;
+}
+
+.Button_back {
+    background-color: #ffffff;
+    color: #BD2333;
+    border: 1px solid #BD2333;
+    font-size: 14px;
+    border-radius: 5px;
+    width: 80px;
+    justify-content: center;
+}
+
+.Button_change {
+    display: flex;
+    justify-content: center;
+    color: #BD2333;
+    background-color: transparent;
+    border: none;
+    font-weight: 600;
+    width: 130px;
+    height: 20px;
+    margin: 10px;
+}
+
+.Button_nickname {
+    background-color: #BD2333;
+    color: #ffffff;
 }

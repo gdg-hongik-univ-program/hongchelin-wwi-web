@@ -1,6 +1,6 @@
 import "../components/Footer.css"
 import Button from "./Button"
-import Home from "../assets/Home.png"
+import Map from "../assets/Map.png"
 import Community from "../assets/Community.png"
 import MyPage from "../assets/MyPage.png"
 import Vote from "../assets/Vote.png"
@@ -13,24 +13,16 @@ function Footer() {
     return(
         <div className="Footer">
          <Button type="footer" onClick={() => nav("/")}>
-            <img src={Home} alt="Home img" width="36px" height="36px"/>
-            HOME
+            <img src={Map} alt="Map img" width="40px" height="40px"/>
          </Button>
          <Button type="footer" onClick={() => nav("/community")}>
-            <img src={Community} alt="Community img" width="36px" height="36px" />
-            COMMUNITY
+            <img src={Community} alt="Community img" width="40px" height="40px" />
          </Button>
          <Button type="footer" onClick={() => nav("/vote")}>
-            <img src={Vote} alt="Vote img" width="36px" height="36px" />
-            VOTE
+            <img src={Vote} alt="Vote img" width="40px" height="40px" />
          </Button>
          <Button type="footer" onClick={() => nav("/mypage")}>
             <img src={MyPage} alt="MyPage img" width="36px" height="36px" />
-            MYPAGE
-         </Button>
-         <Button type="footer" onClick={() => nav("/map")}>
-            <img src={MyPage} alt="MyPage img" width="36px" height="36px" />
-            MAP
          </Button>
         </div>
     )
