@@ -1,20 +1,17 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from "react";
+import api from "../api/axiosInstance";
 
 import hongchelinLogo from "../asset/hongchelin-logo.png";
-import serviceImage from "../asset/service.png";
-
-import kakaoLogo from "../asset/kakaotalk-logo.png";
-import naverLogo from "../asset/naver-logo.png";
-import googleLogo from "../asset/google-logo.png";
-
-import idImage from "../asset/ID.png";
-import pwImage from "../asset/PASSWORD.png";
-import loginImage from "../asset/login.png";
 
 export default function LoginPage() {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    if (window.Kakao && !window.Kakao.isInitialized()) {
+      window.Kakao.init("YOUR_KAKAO_JAVASCRIPT_KEY");
+    }
+  }, []);
 
   const handleLogin = async () => {
     if (!id || !password) {
@@ -23,82 +20,90 @@ export default function LoginPage() {
     }
 
     try {
-      const response = await axios.post("/api/login", {
-        id,
-        password,
-      });
-
+      const response = await api.post("/api/login", { id, password });
       const token = response.data.token;
-
-      // JWT 토큰을 localStorage에 저장
       localStorage.setItem("token", token);
-
       alert("로그인 성공!");
-      // 로그인 후 페이지 이동
-      window.location.href = "/home"; // 또는 리디렉트하고 싶은 경로로 변경
+      window.location.href = "/home";
     } catch (error) {
       console.error("로그인 실패", error);
       alert("아이디 또는 비밀번호가 올바르지 않습니다.");
     }
   };
 
+  const loginWithKakao = () => {
+    window.Kakao.Auth.authorize({
+      redirectUri: "http://localhost:5173/oauth/kakao",
+    });
+  };
+
+  const loginWithNaver = () => {
+    const clientId = "YOUR_NAVER_CLIENT_ID";
+    const redirectUri = encodeURIComponent("http://localhost:5173/oauth/naver");
+    const state = Math.random().toString(36).substring(2);
+    const naverAuthUrl =
+      `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${clientId}` +
+      `&redirect_uri=${redirectUri}&state=${state}`;
+    window.location.href = naverAuthUrl;
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        {/* 로고와 설명 */}
-        <div className="flex items-center gap-3 mb-6">
+        
+        {/* 로고 + 설명 */}
+        <div className="mb-6">
           <img src={hongchelinLogo} alt="홍슐랭 로고" className="h-12" />
-          <img src={serviceImage} alt="서비스 설명" className="h-6" />
+          <p className="mt-1 text-sm text-gray-600">홍대생을 위한 맛집 투표 서비스</p>
         </div>
 
-        {/* 소셜 로그인 (아직 기능 없음) */}
-        <div className="flex flex-col gap-4 mb-6">
-          <button className="flex justify-center items-center h-12 bg-transparent">
-            <img src={kakaoLogo} alt="카카오 로그인" className="h-full object-contain" />
-          </button>
-          <button className="flex justify-center items-center h-12 bg-transparent">
-            <img src={naverLogo} alt="네이버 로그인" className="h-full object-contain" />
-          </button>
-          <button className="flex justify-center items-center h-12 bg-transparent">
-            <img src={googleLogo} alt="구글 로그인" className="h-full object-contain" />
-          </button>
-        </div>
-
-        {/* 아이디, 비밀번호 입력 */}
+        {/* 소셜 로그인 */}
         <div className="flex flex-col gap-3 mb-6">
-          <div className="relative">
-            <img src={idImage} alt="아이디 입력창" className="w-full h-10 object-contain" />
-            <input
-              type="text"
-              placeholder="아이디"
-              value={id}
-              onChange={(e) => setId(e.target.value)}
-              className="absolute top-0 left-0 w-full h-10 bg-transparent px-3 py-1 text-sm text-gray-800 focus:outline-none"
-            />
-          </div>
+          <button 
+            onClick={loginWithKakao} 
+            className="w-full h-10 rounded-md bg-[#FEE500] text-black font-bold text-sm hover:opacity-90 transition"
+          >
+            카카오톡 로그인
+          </button>
+          <button 
+            onClick={loginWithNaver} 
+            className="w-full h-10 rounded-md bg-[#03C75A] text-white font-bold text-sm hover:opacity-90 transition"
+          >
+            네이버 로그인
+          </button>
+          <button 
+            className="w-full h-10 rounded-md bg-gray-300 text-black font-medium text-sm hover:opacity-90 transition"
+          >
+            구글 로그인
+          </button>
+        </div>
 
-          <div className="relative">
-            <img src={pwImage} alt="비밀번호 입력창" className="w-full h-10 object-contain" />
-            <input
-              type="password"
-              placeholder="비밀번호"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="absolute top-0 left-0 w-full h-10 bg-transparent px-3 py-1 text-sm text-gray-800 focus:outline-none"
-            />
-          </div>
-
-          <button className="w-full" onClick={handleLogin}>
-            <img
-              src={loginImage}
-              alt="로그인 버튼"
-              className="w-full h-10 object-contain hover:opacity-90"
-            />
+        {/* 아이디, 비밀번호 + 로그인 버튼 */}
+        <div className="flex flex-col gap-3">
+          <input
+            type="text"
+            placeholder="아이디"
+            value={id}
+            onChange={(e) => setId(e.target.value)}
+            className="w-full h-10 rounded-md bg-gray-200 px-3 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-400"
+          />
+          <input
+            type="password"
+            placeholder="비밀번호"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full h-10 rounded-md bg-gray-200 px-3 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-400"
+          />
+          <button
+            onClick={handleLogin}
+            className="w-full h-10 rounded-md bg-red-600 text-white text-sm font-medium hover:bg-red-700 active:bg-red-800 transition"
+          >
+            로그인
           </button>
         </div>
 
         {/* 하단 링크 */}
-        <div className="flex justify-between text-xs text-gray-600 underline">
+        <div className="mt-4 flex justify-between text-xs text-gray-600 underline">
           <a href="#">아이디 찾기</a>
           <a href="#">비밀번호 찾기</a>
           <a href="/signup">회원가입</a>
