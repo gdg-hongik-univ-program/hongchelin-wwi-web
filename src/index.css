@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 전체 화면을 흰색으로 */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #ffffff;   /* ← 흰색 */
+  /* display: flex;  ← 제거: 회색 여백/기묘한 정렬 원인 */
+}
+
+/* React 루트 컨테이너 */
+#root {                      /* ← #root 로 수정 (중요) */
+  width: 100%;
+  min-height: 100vh;
+  background-color: #ffffff;  /* 페이지 전역 흰색 유지 */
+  /* max-width: 600%;  ← 제거 */
+  /* box-shadow: ...   ← 제거 (카드 그림자 필요하면 페이지 내부에서만 적용) */
+  padding: 0;                 /* 페이지별 Tailwind로 여백 주기 권장 */
+  margin: 0;
+}
