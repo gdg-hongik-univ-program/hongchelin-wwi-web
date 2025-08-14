@@ -11,3 +11,10 @@
     background-color: #ffffff;
     width: 300px;
 }
+
+.empty-state {
+    font-size: 16px;
+    font-weight: 500;
+    margin-top: 8px;
+    color: #BD2333;
+}

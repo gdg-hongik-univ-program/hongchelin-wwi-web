@@ -1,0 +1,98 @@
+/* PostDetail.css */
+
+/* 전체 컨테이너 */
+.PostDetail {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+/* 제목 영역 */
+.PostDetail .title {
+  border-bottom: 2px solid #eee;
+  padding-bottom: 15px;
+  margin-bottom: 20px;
+}
+
+.PostDetail .title h2 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+
+.PostDetail .title p {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #555;
+}
+
+/* 상세 정보 */
+.PostDetail .detail {
+  background-color: #fafafa;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.PostDetail .detail p {
+  margin: 6px 0;
+  font-size: 1rem;
+}
+
+.PostDetail .detail img {
+  display: block;
+  margin-top: 10px;
+  border-radius: 8px;
+}
+
+/* 수정·삭제 버튼 영역 */
+.PostDetail .postDetail {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.PostDetail .postDetail button {
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.PostDetail .postDetail button:hover {
+  opacity: 0.9;
+}
+
+/* 댓글 영역 */
+.PostDetail section {
+  margin-top: 40px;
+}
+
+.PostDetail textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  resize: vertical;
+  font-size: 0.95rem;
+}
+
+.PostDetail textarea:focus {
+  outline: none;
+  border-color: #BD2333;
+  box-shadow: 0 0 4px rgba(255, 152, 0, 0.3);
+}
+
+.PostDetail section button {
+  background-color: #BD2333;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: 0.2s ease;
+}

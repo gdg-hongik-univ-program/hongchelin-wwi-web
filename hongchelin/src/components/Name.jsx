@@ -1,16 +1,13 @@
 import "./Name.css";
-// import { useState, useRef } from "react";
-// import { useNavigate } from "react-router-dom";
 
-const Name = ({nickname, profileImage, onEditClick}) => {
-  // const nav = useNavigate();
-
+const Name = ({ nickname, profileImage, onAvatarClick }) => {
   return (
     <div className="Name">
-      <img src={profileImage}
+      <img
+      src={profileImage}
       alt="프로필사진"
       className="profile-img"
-      onClick={onEditClick}
+      onClick={onAvatarClick}
       />
       <h3>{nickname}</h3>
     </div>

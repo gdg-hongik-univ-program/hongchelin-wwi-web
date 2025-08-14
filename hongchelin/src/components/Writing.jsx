@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getStringedDate} from "../util/getStringedDate"
 
-const Writing = ({initData, onSubmit}) =>{
+const Writing = ({initData, onSubmit, mode}) =>{
     const nav = useNavigate();
     const [input, setInput] = useState({
         title: "",
@@ -18,7 +18,7 @@ const Writing = ({initData, onSubmit}) =>{
         location: "",
     })
 
-    const [searchKeyword, setSearchKeyword] = useState("");
+    // const [searchKeyword, setSearchKeyword] = useState("");
 
     const [rating, setRating] = useState(0);
     const renderStars = () => {
@@ -37,14 +37,20 @@ const Writing = ({initData, onSubmit}) =>{
         return stars;
     };
 
-    useEffect(()=>{
-        if(initData){
-            setInput({
-                ...initData,
-                createdDate: new Date(Number(initData.createdDate))
-            })
-        }
-    }, [initData])
+    useEffect(() => {
+    if (initData) {
+        setInput({
+        title: initData.title || "",
+        createdDate: new Date(initData.createdDate),
+        content: initData.content || "",
+        recommendedMenu: initData.recommendedMenu || "",
+        location: initData.location || "",
+        });
+        // setSearchKeyword(initData.location || ""); // 위치 검색어도 세팅
+        setRating(initData.rating || 0);           // 별점도 세팅
+    }
+    }, [initData]);
+
 
     const onChangeInput = (e) => {
     let name = e.target.name;
@@ -59,15 +65,17 @@ const Writing = ({initData, onSubmit}) =>{
     })
     }
 
-    const onClickSubmitButton = () =>{
-        onSubmit({...input, rating})
-    }
-
+    const onClickSubmitButton = () => {
+        if (!input.title.trim()) return alert("제목을 입력해주세요.");
+        if (!input.location.trim()) return alert("위치를 입력해주세요.");
+        if (!input.content.trim()) return alert("내용을 입력해주세요.");
+        onSubmit({ ...input, rating });
+    };
 
     return (
         <div className="Writing">
             <div>
-                <Header_writing text="새로운 게시글 작성하기"/>
+                <Header_writing text={mode === "edit" ? "게시글 수정하기" : "새로운 게시글 작성하기"}/>
             </div>
             <section>
                 <h4>제목</h4>
@@ -92,10 +100,11 @@ const Writing = ({initData, onSubmit}) =>{
             <section className="date_section">
                 <h4>📍위치</h4>
                 <input 
+                name="location"
                 type="text"
                 placeholder="가게 이름을 입력해주세요"
-                value={searchKeyword}
-                onChange={(e)=>setSearchKeyword(e.target.value)}
+                value={input.location}
+                onChange={onChangeInput}
                 style={{marginBottom: "10px"}}
                 required/>
             </section>

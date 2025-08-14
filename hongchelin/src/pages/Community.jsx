@@ -3,41 +3,47 @@ import Footer from "../components/Footer";
 import Items from "../components/Items"
 import Header_writing from "../components/Header_writing";
 import { useNavigate } from "react-router-dom";
-import { useState, useContext } from "react";
+import { useState, useContext, useMemo } from "react";
 import { PostsStateContext } from "../App";
 import "./Community.css";
 import usePostTitle from "../hooks/usePostTitle";
+import { mockPost } from "../../mock/mockData";
 
 const Community = () =>{
-    const mockPost = {
-        id : 1,
-        createdDate: "2025-08-04",
-        title: "발바리네",
-        content: "진짜 맛있어요 !",
-        rating: "5"
-    }
+    // const post = mockPost;
     const nav = useNavigate();
-    usePostTitle("맛집 정보 게시판")
-    const posts = useContext(PostsStateContext);
+    usePostTitle("맛집 정보 게시판");
+
+    const contextPosts = useContext(PostsStateContext);
+    const posts = contextPosts.length > 0 ? contextPosts : mockPost;
+
     const [search, setSearch] = useState("");
 
     const onChangeSearch = (e) => {
         setSearch(e.target.value);
     };
     
-    const getFilteredData = () => {
-        if (search === ""){
-            return posts;
-        }
-        return posts.filter((posts) => {
-            return(
-            posts.content.toLowerCase().includes(search.toLowerCase()) ||
-            posts.title.toLowerCase().includes(search.toLowerCase())
-            );
-        })
-    }
+    const filteredPosts = useMemo(() => {
+        const normalized = (s) => (s ? String(s).toLowerCase() : "");
+        const list = posts || [];
 
-    const filteredPosts = getFilteredData();
+        const result =
+        search.trim() === ""
+            ? list
+            : list.filter((post) => {
+                const t = normalized(post.title);
+                const c = normalized(post.content);
+                const l = normalized(post.location);
+                const q = normalized(search);
+                return t.includes(q) || c.includes(q) || l.includes(q);
+            });
+
+        return [...result].sort((a, b) => {
+        const da = new Date(a.createdDate).getTime();
+        const db = new Date(b.createdDate).getTime();
+        return db - da;
+        });
+    }, [posts, search]);
 
     return (
         <div>
@@ -53,14 +59,26 @@ const Community = () =>{
                 </Button>
             </div>
             <div>
-                <Items
-                id= {mockPost.id}
-                createdDate={mockPost.createdDate}
-                content={mockPost.content} />
+                {filteredPosts.length === 0 ? (
+                <div className="empty-state">
+                    검색 결과가 없어요. 다른 키워드를 입력해보세요.
+                </div>
+                ) : (
+                filteredPosts.map((post) => (
+                    <Items
+                    key={post.id}
+                    id={post.id}
+                    title={post.title}
+                    createdDate={post.createdDate}
+                    content={post.content}
+                    location={post.location}
+                    />
+                ))
+                )}
             </div>
-            <div>
+            {/* <div>
                 <Items posts={filteredPosts}/>
-            </div>
+            </div> */}
             <Footer />
         </div>
     )

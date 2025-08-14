@@ -9,12 +9,22 @@ const ImageBox = ({ post }) => {
       <h4>
       나만의 홍슐랭 게시판
       </h4>
+
       <div className="image-box-wrapper">
-        {!post || !post.imageUrl ? (
+        {!post ? (
           <div className="image-box no-image">
             게시글을 작성해보세요 !
           </div>
-        ) : (
+        ) : !post.imageUrl ? (
+          <div 
+          className="image-box no-image"
+          onClick={()=>nav(`/post/${post.id}`)}
+          style={{cursor: "pointer"}}
+          >
+            <div className="no-image-title">{post.title}</div>
+          </div>
+        ) :   
+        (
           <div
             className="image-box"
             onClick={() => nav(`/post/${post.id}`)}
