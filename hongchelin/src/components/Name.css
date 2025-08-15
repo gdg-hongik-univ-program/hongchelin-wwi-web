@@ -8,12 +8,20 @@
     align-items: center;
 }
 
-.Name > img {
+.Name .profile-img {
     display: flex;
-    width: 100px;
-    height: 100px;
+    width: 90px;
+    height: 90px;
     border-radius: 50%;
     object-fit: cover;
+    border: none;
+    margin-left: 20px;
+}
+
+.Name .badge-img {
+    display: flex;
+    width: 90px;
+    height: 90px;
     border: none;
     margin-left: 20px;
 }

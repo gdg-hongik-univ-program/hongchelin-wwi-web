@@ -6,6 +6,12 @@ const ProfileImageModal = ({ onClose, onSave }) => {
   const [previewURL, setPreviewURL] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
 
+  useEffect(() => {
+    const onKey = (e) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
   useEffect(()=>{
     return () => {
       if (previewURL) URL.revokeObjectURL(previewURL);

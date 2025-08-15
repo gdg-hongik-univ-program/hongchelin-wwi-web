@@ -47,7 +47,7 @@ const Writing = ({initData, onSubmit, mode}) =>{
         location: initData.location || "",
         });
         // setSearchKeyword(initData.location || ""); // 위치 검색어도 세팅
-        setRating(initData.rating || 0);           // 별점도 세팅
+        setRating(initData.rating || 0);
     }
     }, [initData]);
 
@@ -69,14 +69,25 @@ const Writing = ({initData, onSubmit, mode}) =>{
         if (!input.title.trim()) return alert("제목을 입력해주세요.");
         if (!input.location.trim()) return alert("위치를 입력해주세요.");
         if (!input.content.trim()) return alert("내용을 입력해주세요.");
-        onSubmit({ ...input, rating });
+
+        const postData = {
+            ...input,
+            rating,
+            createdDate: new Date(input.createdDate).toISOString(),
+            nickname: "홍슐랭 유저",
+            profileImage: "URL"
+        };
+
+        onSubmit(postData);
     };
+
 
     return (
         <div className="Writing">
             <div>
                 <Header_writing text={mode === "edit" ? "게시글 수정하기" : "새로운 게시글 작성하기"}/>
             </div>
+
             <section>
                 <h4>제목</h4>
                 <input 
@@ -89,7 +100,7 @@ const Writing = ({initData, onSubmit, mode}) =>{
             </section>
 
             <section className="date_section">
-                <h4>📅날짜</h4>
+                <h4>📅 날짜</h4>
                 <input
                 name="createdDate"
                 onChange={onChangeInput}
@@ -98,7 +109,7 @@ const Writing = ({initData, onSubmit, mode}) =>{
             </section>
 
             <section className="date_section">
-                <h4>📍위치</h4>
+                <h4>📍 위치</h4>
                 <input 
                 name="location"
                 type="text"
@@ -109,8 +120,8 @@ const Writing = ({initData, onSubmit, mode}) =>{
                 required/>
             </section>
 
-            <section className="">
-                <h4>🍽️추천메뉴</h4>
+            <section>
+                <h4>🍽️ 추천메뉴</h4>
                 <input
                 name="recommendedMenu"
                 value={input.recommendedMenu}
@@ -129,12 +140,12 @@ const Writing = ({initData, onSubmit, mode}) =>{
             </section>
 
             <section>
-                <h4>📷사진 추가</h4>
+                <h4>📷 사진 추가</h4>
                 <ImageUpload />
             </section>
 
             <section>
-                <h4>⭐️별점</h4>
+                <h4>⭐️ 별점</h4>
                 <div>{renderStars()}</div>
             </section>
             

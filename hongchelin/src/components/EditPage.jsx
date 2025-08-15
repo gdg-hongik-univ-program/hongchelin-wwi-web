@@ -27,7 +27,7 @@ function normalizePost(data) {
     recommendedMenu: data.recommendedMenu ?? "",
     rating: typeof data.rating === "number" ? data.rating : 0,
     createdDate: parseToDateSafe(data.createdDate),
-    imageUrl: data.imageUrl ?? "", // 있다면 유지
+    imageUrl: data.imageUrl ?? "",
   };
 }
 
@@ -41,7 +41,6 @@ const EditPage = () =>{
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        // state 없으면 서버에서 불러오기
         if (!state) {
         const fetchData = async () => {
             try {
@@ -61,7 +60,6 @@ const EditPage = () =>{
 
   const handleSubmit = async (updatedData) => {
     try {
-      // createdDate를 안전하게 ISO로 변환해 전송 (백엔드 스펙에 맞추어 조정 가능)
       const payload = {
         ...updatedData,
         createdDate: new Date(updatedData.createdDate).toISOString(),
@@ -79,7 +77,6 @@ const EditPage = () =>{
   if (error) return <div>{error}</div>;
   if (!initData) return <div>게시글 데이터가 없습니다.</div>;
 
-  // mode="edit"로 수정 화면이라는 걸 명확히 전달
   return <Writing mode="edit" initData={initData} onSubmit={handleSubmit} />;
 };
 

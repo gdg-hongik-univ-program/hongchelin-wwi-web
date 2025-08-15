@@ -1,16 +1,19 @@
-// src/components/Profile.jsx
 import { useEffect, useRef, useState } from "react";
 import Name from "./Name";
 import Information from "./Information";
 import NicknameModal from "./NicknameModal";
 import ProfileImageModal from "./ProfileImageModal";
+import BadgeModal from "./BadgeModal"
 import { getMyPage, updateUserNickname, updateUserProfileImage } from "../api/post";
+import { BADGES } from "../constants/BadgeImage"
 
 const Profile = ({ userId }) => {
   const [nickname, setNickname] = useState("기존닉네임");
   const [profileImage, setProfileImage] = useState("");
+  const [badge, setBadge] = useState(BADGES[0])
   const [isNicknameModalOpen, setIsNicknameModalOpen] = useState(false);
   const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+  const [isBadgeModalOpen, setIsBadgeModalOpen] = useState(false);
   const tempObjectUrlRef = useRef(null);
 
   useEffect(() => {
@@ -52,7 +55,6 @@ const Profile = ({ userId }) => {
         tempObjectUrlRef.current = tmp;
         setProfileImage(tmp);
       }
-
       setIsImageModalOpen(false);
     } catch (error) {
       console.error("프로필 이미지 저장 실패:", error);
@@ -66,6 +68,13 @@ const Profile = ({ userId }) => {
     };
   }, []);
 
+  const handleBadgeSave = (pickedBadge) => {
+    // 백엔드 저장 API가 있다면 여기서 호출
+    // await updateUserBadge(userId, pickedBadge.id);
+    setBadge(pickedBadge);
+    setIsBadgeModalOpen(false);
+  };
+
   const displayImage = profileImage || "/images/avatar_placeholder.png";
 
   return (
@@ -73,12 +82,12 @@ const Profile = ({ userId }) => {
       <Name
         nickname={nickname}
         profileImage={displayImage}
-        onAvatarClick={() => setIsImageModalOpen(true)}
       />
 
       <Information
         onOpenNicknameModal={() => setIsNicknameModalOpen(true)}
         onOpenProfileImageModal={() => setIsImageModalOpen(true)}
+        onOpenBadgeModal={() => setIsBadgeModalOpen(true)}
       />
 
       {isNicknameModalOpen && (
@@ -92,6 +101,14 @@ const Profile = ({ userId }) => {
         <ProfileImageModal
           onClose={() => setIsImageModalOpen(false)}
           onSave={handleImageSave}
+          initialBadgeID = {badge?.id}
+        />
+      )}
+
+      {isBadgeModalOpen && (
+        <BadgeModal
+        onClose={() => setIsBadgeModalOpen(false)}
+        onSave={handleBadgeSave}
         />
       )}
     </>

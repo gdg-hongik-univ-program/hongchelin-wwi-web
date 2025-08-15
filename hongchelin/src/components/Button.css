@@ -27,7 +27,7 @@
     font-size: 18px;
     background-color: #BD2333;
     color: #ffffff;
-    border-radius: 5px;
+    border-radius: 10px;
     width: 250px;
     height: 45px;
     margin: 20px 0px;
@@ -43,7 +43,7 @@
     font-size: 18px;
     background-color: #ffffff;
     border: 1px solid #BD2333;
-    border-radius: 5px;
+    border-radius: 10px;
     color: #BD2333;
     align-items: center;
     justify-content: center;
@@ -79,8 +79,9 @@
     font-size: 14px;
     border-radius: 5px;
     width: 80px;
+    padding: 5px;
     justify-content: center;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .Button_change {

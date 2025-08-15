@@ -10,7 +10,7 @@ const PostDetail = () => {
   const { postId } = useParams();
   const nav = useNavigate();
 
-  const contextPosts = useContext(PostsStateContext);
+  const contextPosts = useContext(PostsStateContext) || [];
   const fallbackPosts = contextPosts.length > 0 ? contextPosts : mockPost;
 
   const [post, setPost] = useState(
@@ -76,7 +76,22 @@ const PostDetail = () => {
   return (
     <div className="PostDetail">
       <div>
-        <Button type="back" onClick={() => nav(-1)} style={{marginTop : "10px"}}>뒤로가기</Button>
+        <Button type= "back" onClick={() => nav(-1)} style={{marginTop : "10px"}}>뒤로가기</Button>
+      </div>
+
+      <div className="info">
+        <img
+          src={post.profileImage}
+          alt={`${post.nickname} 프로필`}
+          className="profile-image"
+        />
+        <div className="info-text">
+          <p className="nickname">{post.nickname}</p>
+          <p className="created-date">
+            {new Date(post.createdDate).toLocaleDateString("ko-KR")}{" "}
+            {new Date(post.createdDate).toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" })}
+          </p>
+        </div>
       </div>
 
       <div className="title">
@@ -89,7 +104,6 @@ const PostDetail = () => {
         <p>⭐️ 별점: {post.rating} / 5</p>
         {post.imageUrl && <img src={post.imageUrl} alt="첨부 이미지" width="300" />}
       </div>
-      {/* 닉네임 / 날짜 압력 / 사진 - 에타 느낌 */}
 
       <div className="postDetail">
         <Button onClick={handleEdit}>수정</Button>

@@ -1,9 +1,14 @@
 import "./NicknameModal.css";
 import Button from "./Button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const NicknameModal = ({ onClose, onSave }) => {
   const [newNickname, setNewNickname] = useState("");
+  useEffect(() => {
+    const onKey = (e) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
 
   // const handleChange = (e) => setNewNickname(e.target.value);
   const handleSave = () =>{
