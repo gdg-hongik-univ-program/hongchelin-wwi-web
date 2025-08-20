@@ -23,7 +23,7 @@ function normalizePost(data) {
     id: data.id,
     title: data.title ?? "",
     content: data.content ?? "",
-    location: data.location ?? "",
+    restaurantName: data.restaurantName ?? "",
     recommendedMenu: data.recommendedMenu ?? "",
     rating: typeof data.rating === "number" ? data.rating : 0,
     createdDate: parseToDateSafe(data.createdDate),

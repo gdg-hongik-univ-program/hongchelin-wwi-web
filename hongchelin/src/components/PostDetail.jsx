@@ -1,48 +1,58 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
-import { getPostById, deletePost, createComment } from "../api/post";
+import { useEffect, useState } from "react";
+import {
+  getCommunityPostById,
+  deleteCommunityPost,
+  getCommunityComments,
+  createCommunityComment,
+  deleteCommunityComment,
+} from "../api/community";
 import Button from "../components/Button";
-import { mockPost } from "../../mock/mockData";
-import { PostsStateContext } from "../App";
-import "./PostDetail.css"
+import "./PostDetail.css";
 
 const PostDetail = () => {
   const { postId } = useParams();
   const nav = useNavigate();
 
-  const contextPosts = useContext(PostsStateContext) || [];
-  const fallbackPosts = contextPosts.length > 0 ? contextPosts : mockPost;
-
-  const [post, setPost] = useState(
-    fallbackPosts.find((p) => String(p.id) === String(postId)) || null
-  );
+  const [post, setPost] = useState(null);
+  const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
-  const [loading, setLoading] = useState(!post);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+
+  const fetchPost = async () => {
+    try {
+      setLoading(true);
+      const data = await getCommunityPostById(postId);
+      setPost(data);
+    } catch (err) {
+      console.error("게시글 불러오기 실패", err);
+      setError("게시글을 불러오지 못했습니다.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+  const fetchComments = async () => {
+    try {
+      const data = await getCommunityComments(postId);
+      setComments(data);
+    } catch (err) {
+      console.error("댓글 불러오기 실패", err);
+    }
+  };
 
   useEffect(() => {
-    const needFetch = !post;
-    if (!needFetch) return;
-
-    const fetchPost = async () => {
-      try {
-        setLoading(true);
-        const data = await getPostById(postId);
-        setPost(data);
-      } catch (err) {
-        console.error("게시글 불러오기 실패", err);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchPost();
+    fetchComments();
   }, [postId]);
 
   const handleDelete = async () => {
-    const confirm = window.confirm("정말 삭제하시겠습니까?");
-    if (!confirm) return;
-
+    if (!window.confirm("정말 삭제하시겠습니까?")) return;
     try {
-      await deletePost(postId);
+      await deleteCommunityPost(postId);
       alert("게시글이 삭제되었습니다.");
       nav("/community");
     } catch (err) {
@@ -57,26 +67,40 @@ const PostDetail = () => {
       return;
     }
     try {
-      await createComment(postId, { content: comment });
-      alert("댓글이 등록되었습니다.");
+      await createCommunityComment(postId, { content: comment });
       setComment("");
+      await fetchComments();
     } catch (err) {
       console.error("댓글 등록 실패", err);
       alert("댓글 등록에 실패했습니다.");
     }
   };
 
-    const handleEdit = () => {
-    nav(`/writing/edit/${post.id}`, {state: post})
-  }
+  const handleCommentDelete = async (commentId) => {
+    if (!window.confirm("댓글을 삭제하시겠습니까?")) return;
+    try {
+      await deleteCommunityComment(commentId);
+      await fetchComments();
+    } catch (err) {
+      console.error("댓글 삭제 실패", err);
+      alert("댓글 삭제에 실패했습니다.");
+    }
+  };
 
-  if (loading) return <div>불러오는 중...</div>
+  const handleEdit = () => {
+    nav(`/writing/edit/${post.id}`, { state: post });
+  };
+
+  if (loading) return <div>불러오는 중...</div>;
+  if (error) return <div>{error}</div>;
   if (!post) return <div>게시글을 찾을 수 없습니다.</div>;
 
   return (
     <div className="PostDetail">
       <div>
-        <Button type= "back" onClick={() => nav(-1)} style={{marginTop : "10px"}}>뒤로가기</Button>
+        <Button type="back" onClick={() => nav(-1)} style={{ marginTop: "10px" }}>
+          뒤로가기
+        </Button>
       </div>
 
       <div className="info">
@@ -89,7 +113,10 @@ const PostDetail = () => {
           <p className="nickname">{post.nickname}</p>
           <p className="created-date">
             {new Date(post.createdDate).toLocaleDateString("ko-KR")}{" "}
-            {new Date(post.createdDate).toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" })}
+            {new Date(post.createdDate).toLocaleTimeString("ko-KR", {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
           </p>
         </div>
       </div>
@@ -98,8 +125,9 @@ const PostDetail = () => {
         <h2>{post.title}</h2>
         <p>{post.content}</p>
       </div>
+
       <div className="detail">
-        <p>📍 위치: {post.location}</p>
+        <p>📍 위치: {post.restaurantName}</p>
         <p>🍽️ 추천메뉴: {post.recommendedMenu}</p>
         <p>⭐️ 별점: {post.rating} / 5</p>
         {post.imageUrl && <img src={post.imageUrl} alt="첨부 이미지" width="300" />}
@@ -116,15 +144,39 @@ const PostDetail = () => {
           value={comment}
           onChange={(e) => setComment(e.target.value)}
           placeholder="댓글을 입력하세요"
-          style={{ width: "90%", height: "80px", padding: "10px", marginTop: "10px" }}
+          style={{
+            width: "90%",
+            height: "80px",
+            padding: "10px",
+            marginTop: "10px",
+          }}
         />
         <Button onClick={handleCommentSubmit} style={{ marginTop: "10px" }}>
           댓글 등록
         </Button>
       </section>
+
+      {comments.length > 0 && (
+        <section style={{ marginTop: "20px" }}>
+          <h3>📝 댓글 목록</h3>
+          {comments.map((c) => (
+            <div key={c.id} className="comment-item">
+              <p>
+                <b>{c.nickname}</b>: {c.content}
+              </p>
+              <Button
+                type="delete"
+                onClick={() => handleCommentDelete(c.id)}
+                style={{ marginLeft: "10px" }}
+              >
+                삭제
+              </Button>
+            </div>
+          ))}
+        </section>
+      )}
     </div>
   );
-
 };
 
 export default PostDetail;

@@ -4,7 +4,7 @@ import { FaImage, FaTrashAlt } from 'react-icons/fa';
 
 const ImageUpload = () => {
   const [preview, setPreview] = useState(null);
-  const fileInputRef = useRef(null); // input 조작용
+  const fileInputRef = useRef(null);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];

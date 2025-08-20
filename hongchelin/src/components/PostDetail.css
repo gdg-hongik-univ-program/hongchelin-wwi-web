@@ -1,14 +1,10 @@
-/* PostDetail.css */
-
-/* 전체 컨테이너 */
 .PostDetail {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
-  font-family: "Noto Sans KR", sans-serif;
 }
 
-/* 제목 영역 */
+
 .PostDetail .title {
   border-bottom: 2px solid #eee;
   padding-bottom: 15px;
@@ -26,7 +22,7 @@
   color: #555;
 }
 
-/* 상세 정보 */
+
 .PostDetail .detail {
   background-color: #fdf2f2;
   border-radius: 10px;
@@ -45,7 +41,7 @@
   border-radius: 8px;
 }
 
-/* 수정·삭제 버튼 영역 */
+
 .PostDetail .postDetail {
   display: flex;
   gap: 10px;
@@ -65,7 +61,6 @@
   opacity: 0.9;
 }
 
-/* 댓글 영역 */
 .PostDetail section {
   margin-top: 40px;
 }
@@ -105,16 +100,16 @@
 }
 
 .profile-image {
-  width: 40px;         /* 프로필 이미지 크기 */
+  width: 40px;      
   height: 40px;
-  border-radius: 50%; /* 동그랗게 */
-  object-fit: cover;  /* 이미지 비율 유지 */
-  margin-right: 10px; /* 이미지와 텍스트 사이 간격 */
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
 }
 
 .info-text {
   display: flex;
-  flex-direction: column; /* 닉네임과 날짜를 세로로 */
+  flex-direction: column;
   justify-content: center;
 }
 

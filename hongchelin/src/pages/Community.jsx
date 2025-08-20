@@ -1,87 +1,87 @@
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import Button from "../components/Button";
 import Footer from "../components/Footer";
-import Items from "../components/Items"
+import Items from "../components/Items";
 import Header_writing from "../components/Header_writing";
-import { useNavigate } from "react-router-dom";
-import { useState, useContext, useMemo } from "react";
-import { PostsStateContext } from "../App";
 import "./Community.css";
 import usePostTitle from "../hooks/usePostTitle";
-import { mockPost } from "../../mock/mockData";
+import { getCommunityPosts } from "../api/community";
 
-const Community = () =>{
-    // const post = mockPost;
-    const nav = useNavigate();
-    usePostTitle("맛집 정보 게시판");
+const Community = () => {
+  const nav = useNavigate();
+  usePostTitle("맛집 정보 게시판");
 
-    const contextPosts = useContext(PostsStateContext);
-    const posts = contextPosts.length > 0 ? contextPosts : mockPost;
+  const [posts, setPosts] = useState([]);
+  const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
 
-    const [search, setSearch] = useState("");
+  const fetchPosts = async (query = "") => {
+    try {
+      setLoading(true);
+      const data = await getCommunityPosts({ query, page: 0, size: 20 });
+      setPosts(Array.isArray(data) ? data : (data?.content || []));
 
-    const onChangeSearch = (e) => {
-        setSearch(e.target.value);
-    };
-    
-    const filteredPosts = useMemo(() => {
-        const normalized = (s) => (s ? String(s).toLowerCase() : "");
-        const list = posts || [];
+    } catch (err) {
+      console.error("게시글 불러오기 실패:", err);
+      setPosts([]); // 에러 났을 때도 안전하게 초기화
+    } finally {
+      setLoading(false);
+    }
+  };
 
-        const result =
-        search.trim() === ""
-            ? list
-            : list.filter((post) => {
-                const t = normalized(post.title);
-                const c = normalized(post.content);
-                const l = normalized(post.location);
-                const q = normalized(search);
-                return t.includes(q) || c.includes(q) || l.includes(q);
-            });
+  useEffect(() => {
+    fetchPosts();
+  }, []);
 
-        return [...result].sort((a, b) => {
-        const da = new Date(a.createdDate).getTime();
-        const db = new Date(b.createdDate).getTime();
-        return db - da;
-        });
-    }, [posts, search]);
+  const onChangeSearch = (e) => {
+    setSearch(e.target.value);
+  };
 
-    return (
-        <div>
-            <Header_writing text="맛집 정보 게시판"/>
-            <div className="Community-search">
-                <input
-                value={search}
-                onChange={onChangeSearch}
-                placeholder="🔍 검색어를 입력하세요"/>
-                
-                <Button type="community" onClick={() => nav("/writing")}>
-                    게시글 작성하기
-                </Button>
-            </div>
-            <div>
-                {filteredPosts.length === 0 ? (
-                <div className="empty-state">
-                    검색 결과가 없어요. 다른 키워드를 입력해보세요.
-                </div>
-                ) : (
-                filteredPosts.map((post) => (
-                    <Items
-                    key={post.id}
-                    id={post.id}
-                    title={post.title}
-                    createdDate={post.createdDate}
-                    content={post.content}
-                    location={post.location}
-                    />
-                ))
-                )}
-            </div>
-            {/* <div>
-                <Items posts={filteredPosts}/>
-            </div> */}
-            <Footer />
-        </div>
-    )
-}
+  const handleSearch = () => {
+    fetchPosts(search.trim());
+  };
+
+  return (
+    <div>
+      <Header_writing text="맛집 정보 게시판" />
+      <div className="Community-search">
+        <input
+          value={search}
+          onChange={onChangeSearch}
+          placeholder="🔍 검색어를 입력하세요"
+        />
+        <Button type="search" onClick={handleSearch}>
+          검색
+        </Button>
+        <Button type="community" onClick={() => nav("/writing")}>
+          게시글 작성하기
+        </Button>
+      </div>
+
+      <div>
+        {loading ? (
+          <div>불러오는 중...</div>
+        ) : posts.length === 0 ? (
+          <div className="empty-state">
+            검색 결과가 없어요. 다른 키워드를 입력해보세요.
+          </div>
+        ) : (
+          posts.map((post) => (
+            <Items
+              key={post.id}
+              id={post.id}
+              title={post.title}
+              createdDate={post.createdDate}
+              content={post.content}
+              restaurantName={post.restaurantName}
+            />
+          ))
+        )}
+      </div>
+      <Footer />
+    </div>
+  );
+};
 
 export default Community;

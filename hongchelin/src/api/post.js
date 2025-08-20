@@ -1,56 +1,84 @@
-import api from "./axiosInstance";
-// import axios from "axios";
+// import api from "./axiosInstance";
 
-export const getPosts = async () => {
-    const res = await api.get("/posts");
-    return res.data;
-}
+// export const getPosts = async () => {
+//     const res = await api.get("/posts");
+//     return res.data;
+// }
 
-export const getPostById = async (postId) => {
-    const res = await api.get(`/posts/${postId}`);
-    return res.data;
-}
+// export const getPostById = async (postId) => {
+//     const res = await api.get(`/posts/${postId}`);
+//     return res.data;
+// }
 
-export const createPost = async(postData) => {
-    const res = await api.post("/posts", postData);
-    return res.data;
-}
+// export const createPost = async (postData) => {
+//   const payload = {
+//     title: postData.title,
+//     content: postData.content,
+//     location: postData.location,
+//     recommendedMenu: postData.recommendedMenu,
+//     createdDate: new Date(postData.createdDate ?? new Date()).toISOString(),
+//     rating: postData.rating ?? 0,
+//     imageUrl: postData.imageUrl ?? null,
+//   };
 
-export const updatePost = async (postId, postData) => {
-    const res = await api.put(`/posts/${postId}`, postData);
-    return res.data;
-}
+//   console.log(
+//     "[createPost] POST",
+//     (api.defaults.baseURL || "") + "/posts",
+//     payload
+//   );
 
-export const deletePost = async (postId) => {
-    const res = await api.delete(`/posts/${postId}`);
-    return {status: res.status};
-}
+//   const res = await api.post("/posts", payload, {
+//     headers: { "Content-Type": "application/json" },
+//   });
+//   return res.data;
+// };
 
-export const createComment = async (postId, commentData) => {
-    const res = await api.post(`/posts/${postId}/comments`, commentData);
-    return res.data;
-}
+// export const updatePost = async (postId, postData) => {
+//     const res = await api.put(`/posts/${postId}`, postData);
+//     return res.data;
+// }
 
-export const getMyPage = async (userId) => {
-    const res = await api.get(`/api/mypage/${userId}`);
-    return res.data;
-}
+// export const deletePost = async (postId) => {
+//     const res = await api.delete(`/posts/${postId}`);
+//     return {status: res.status};
+// }
 
-export const updateUserNickname = async (userId, newNickname) => {
-    const res = await api.patch(`/api/mypage/${userId}/nickname`, {
-        nickname: newNickname,
-    });
-    return res.data;
-};
+// export const createComment = async (postId, commentData) => {
+//     const res = await api.post(`/posts/${postId}/comments`, commentData);
+//     return res.data;
+// }
 
-export const updateUserProfileImage = async (userId, imageFile) => {
-    const formData = new FormData();
-    formData.append("image", imageFile);
+// export const getMyPage = async () => {
+//     const res = await api.get(`/api/users/me`);
+//     return res.data;
+// }
 
-    const res = await api.patch(`/api/mypage/${userId}/profile`, formData, {
-        headers: {
-            "Content-Type": "multipart/form-data",
-        },
-    });
-    return res.data;
-}
+// export const updateUserNickname = async (newNickname) => {
+//     const res = await api.put(`/api/users/me/nickname`, {
+//         nickname: newNickname,
+//     });
+//     return res.data;
+// };
+
+// export const updateUserProfileImage = async (imageFile) => {
+//     const formData = new FormData();
+//     formData.append("file", imageFile);
+
+//     const res = await api.post(`/api/users/me/profile-image`, formData, {
+//         headers: {
+//             "Content-Type": "multipart/form-data",
+//         },
+//     });
+//     return res.data;
+// }
+
+// export const getMyPosts = async ({page = 0, size = 12} = {}) => {
+//     const res = await api.get("api/users/me/posts", {params: {page, size}});
+//     return res.data;
+// }
+
+// export const setActiveBadge = async (badgeId) => {
+//     const res = await api.put(`/api/users/me/badges/active/${badgeId}`);
+//     return { status: res.data};
+// }
+

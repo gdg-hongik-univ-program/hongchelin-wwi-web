@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import "./Items.css"
 
-const Items = ({id, title, createdDate, content, location}) => {
+const Items = ({id, title, createdDate, content, restaurantName}) => {
     const nav = useNavigate();
 
     const handleClick = () => {
@@ -16,7 +16,7 @@ const Items = ({id, title, createdDate, content, location}) => {
                 {new Date(createdDate).toLocaleDateString("ko-KR")}
                 </span>
             </div>
-            <h4 className="item-location">📍{location}</h4>
+            <h4 className="item-location">📍{restaurantName}</h4>
             <p className="item-content">{content}</p>
         </div>
     );

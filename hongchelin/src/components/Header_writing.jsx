@@ -1,10 +1,7 @@
 import Button from "./Button";
 import "./Header_writing.css";
-// import { useNavigate } from "react-router-dom";
 
 const Header_writing = ({text}) => {
-    // const nav = useNavigate();
-
     return (
         <header className="Header_writing">
             <div>

@@ -67,7 +67,19 @@
     color: #ffffff;
     border-radius: 5px;
     font-size: 15px;
-    width: 250px;
+    width: 300px;
+    height: 30px;
+    justify-content: center;
+}
+
+.Button_search {
+    display: flex;
+    align-items: center;
+    background-color: #BD2333;
+    color: #ffffff;
+    border-radius: 5px;
+    font-size: 15px;
+    width: 150px;
     height: 30px;
     justify-content: center;
 }
