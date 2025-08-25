@@ -41,6 +41,7 @@ const sanitizePostPayload = (postData) => pickDefined({
   recommendedMenu: postData.recommendedMenu?.trim(),
   imageUrl: postData.imageUrl?.trim(),
   rating: clampRating(postData.rating),
+  createdDate: postData.createdDate,
 });
 
 export const getCommunityPosts = async ({ query = "", page = 0, size = 10 } = {}) => {

@@ -1,7 +1,7 @@
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Writing from "./Writing";
-import { getPostById, updatePost } from "../api/post";
+import {getCommunityPostById, updateCommunityPost } from "../api/community";
 
 
 function parseToDateSafe(v) {
@@ -45,7 +45,7 @@ const EditPage = () =>{
         const fetchData = async () => {
             try {
             setLoading(true);
-            const data = await getPostById(postId);
+            const data = await getCommunityPostById(postId);
             setInitData(normalizePost(data));
             } catch (err) {
             console.error("데이터 불러오기 실패:", err);
@@ -64,7 +64,7 @@ const EditPage = () =>{
         ...updatedData,
         createdDate: new Date(updatedData.createdDate).toISOString(),
       };
-      await updatePost(postId, payload);
+      await updateCommunityPost(postId, payload);
       alert("게시글이 수정되었습니다");
       nav(`/posts/${postId}`);
     } catch (error) {

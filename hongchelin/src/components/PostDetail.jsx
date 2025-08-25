@@ -105,7 +105,7 @@ const PostDetail = () => {
 
       <div className="info">
         <img
-          src={post.profileImage}
+          src={post.profileImage || post.profileImage }
           alt={`${post.nickname} 프로필`}
           className="profile-image"
         />
@@ -134,8 +134,8 @@ const PostDetail = () => {
       </div>
 
       <div className="postDetail">
-        <Button onClick={handleEdit}>수정</Button>
-        <Button onClick={handleDelete}>삭제</Button>
+        <Button type="edit" onClick={handleEdit}>수정</Button>
+        <Button type="delete" onClick={handleDelete}>삭제</Button>
       </div>
 
       <section style={{ marginTop: "40px" }}>

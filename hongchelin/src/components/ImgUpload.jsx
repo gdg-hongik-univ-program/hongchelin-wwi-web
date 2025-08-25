@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import './ImgUpload.css';
 import { FaImage, FaTrashAlt } from 'react-icons/fa';
 
-const ImageUpload = () => {
+const ImageUpload = ({onUpload}) => {
   const [preview, setPreview] = useState(null);
   const fileInputRef = useRef(null);
 
@@ -12,11 +12,13 @@ const ImageUpload = () => {
 
     const imageUrl = URL.createObjectURL(file);
     setPreview(imageUrl);
+    onUpload?.(imageUrl,file);
   };
 
   const handleRemoveImage = () => {
     setPreview(null);
-    fileInputRef.current.value = null; // 파일 input 초기화
+    fileInputRef.current.value = null;
+    onUpload?.(null,null);
   };
 
   return (

@@ -85,10 +85,11 @@ const Profile = () => {
   };
 
   const displayImage = profileImage || "/images/avatar_placeholder.png";
-
+  const badgeSrc = BADGES.find(b => b.id === activeBadgeId)?.src;
+  
   return (
     <>
-      <Name nickname={nickname} profileImage={displayImage} />
+      <Name nickname={nickname} profileImage={displayImage} badge={badgeSrc}/>
 
       <Information
         onOpenNicknameModal={() => setIsNicknameModalOpen(true)}

@@ -19,7 +19,7 @@ const Writing = ({ initData, onSubmit, mode }) => {
     imageUrl: "",
   });
 
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState(1);
 
   const renderStars = () => {
     const stars = [];

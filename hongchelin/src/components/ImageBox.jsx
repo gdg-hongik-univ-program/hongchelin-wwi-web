@@ -1,11 +1,28 @@
 import { useNavigate } from "react-router-dom";
-import { mockPost } from "../../mock/mockData";
+import { getMyPosts } from "../api/users";
+import { useEffect, useState } from "react";
 import "./ImageBox.css";
 
-const ImageBox = ({ posts }) => {
+const ImageBox = () => {
   const nav = useNavigate();
-
-  const list = (Array.isArray(posts) && posts.length > 0 ? posts : mockPost).slice(-2);
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const data = await getMyPosts(0,2);
+        const list = Array.isArray(data?.content) ? data.content : (Array.isArray(data) ? data : []);
+        setPosts(list);
+      } catch (error) {
+        console.error("내 게시글 불러오기 실패:", error);
+        setPosts([]);
+      }finally {
+        setLoading(false)
+      }
+    };
+    fetchPosts();
+  }, []);
 
   const goDetail = (id) => {
     if (id == null) return;
@@ -17,10 +34,12 @@ const ImageBox = ({ posts }) => {
       <h4>나만의 홍슐랭 게시판</h4>
 
       <div className="image-box-wrapper">
-        {list.length === 0 ? (
+        {loading ? (
+          <div>불러오는 중...</div>
+        ) : posts.length === 0 ? (
           <div className="image-box no-image">게시글을 작성해보세요 !</div>
         ) : (
-          list.map((post) => (
+          posts.map((post) => (
             <div
               key={post.id}
               className={`image-box ${post.imageUrl ? "" : "no-image"}`}
@@ -37,7 +56,7 @@ const ImageBox = ({ posts }) => {
                   className="image-preview"
                 />
               ) : (
-                <div className="no-image-title">{post.title}</div>
+                <div className="no-image-title">{post.title || "제목 없음"}</div>
               )}
             </div>
           ))
