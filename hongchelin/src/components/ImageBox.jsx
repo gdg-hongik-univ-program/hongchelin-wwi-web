@@ -6,7 +6,6 @@ import "./ImageBox.css";
 const ImageBox = () => {
   const nav = useNavigate();
   const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
   
   useEffect(() => {
     const fetchPosts = async () => {
@@ -17,8 +16,6 @@ const ImageBox = () => {
       } catch (error) {
         console.error("내 게시글 불러오기 실패:", error);
         setPosts([]);
-      }finally {
-        setLoading(false)
       }
     };
     fetchPosts();
@@ -34,9 +31,7 @@ const ImageBox = () => {
       <h4>나만의 홍슐랭 게시판</h4>
 
       <div className="image-box-wrapper">
-        {loading ? (
-          <div>불러오는 중...</div>
-        ) : posts.length === 0 ? (
+        {posts.length === 0 ? (
           <div className="image-box no-image">게시글을 작성해보세요 !</div>
         ) : (
           posts.map((post) => (
